@@ -68,7 +68,7 @@ func getScopes() []string {
 	return scopes
 }
 
-func NewOIDCClient(clientID string, clientSecret string, providerURL string) *OIDCClient {
+func NewOIDCClient(clientID string, clientSecret string, providerURL string, keyProvicer oauth2.KeyProvider) *OIDCClient {
 	ctx := createContext(context.Background())
 
 	provider, err := oidc.NewProvider(ctx, providerURL)
@@ -84,6 +84,7 @@ func NewOIDCClient(clientID string, clientSecret string, providerURL string) *OI
 		Endpoint:     provider.Endpoint(),
 		RedirectURL:  fmt.Sprintf("%s/auth/callback", rootURL),
 		Scopes:       getScopes(),
+		KeyProvider:  keyProvicer,
 	}
 
 	client := OIDCClient{

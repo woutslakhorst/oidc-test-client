@@ -13,6 +13,10 @@ require (
 	golang.org/x/oauth2 v0.30.0
 )
 
+replace github.com/coreos/go-oidc/v3 v3.14.1 => github.com/woutslakhorst/go-oidc/v3 v3.0.0-20250513070417-ee4469b651f2
+
+replace golang.org/x/oauth2 v0.30.0 => github.com/woutslakhorst/oauth2 v0.0.0-20250513065706-5211f452f482
+
 require (
 	github.com/cli/browser v1.0.0 // indirect
 	github.com/cli/safeexec v1.0.0 // indirect

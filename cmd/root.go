@@ -1,6 +1,10 @@
 package cmd
 
 import (
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"golang.org/x/oauth2"
 	"os"
 
 	"beryju.io/oidc-test-client/pkg"
@@ -21,7 +25,17 @@ var rootCmd = &cobra.Command{
 		clientSecret := os.Getenv("OIDC_CLIENT_SECRET")
 		provider := os.Getenv("OIDC_PROVIDER")
 
-		client := pkg.NewOIDCClient(clientID, clientSecret, provider)
+		// DPoP key provider
+		key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+		if err != nil {
+			log.Fatalf("failed to generate ECDSA key: %v", err)
+		}
+		keyProvider := &oauth2.ECKeyProvider{
+			Key:   key,
+			KeyID: "random-uuid",
+		}
+
+		client := pkg.NewOIDCClient(clientID, clientSecret, provider, keyProvider)
 		client.Run()
 	},
 }

@@ -1,0 +1,1 @@
+docker build -t woutslakhorst/oidc-test-client .
